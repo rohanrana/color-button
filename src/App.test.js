@@ -24,4 +24,34 @@ test("button has correct intial color", () => {
   expect(colorbutton.textContent).toBe("Change to red");
 });
 
-test("button has correct intial text", () => {});
+test("intial conditions", () => {
+  //check for button  to Be Enabled
+  render(<App />);
+  const colorbutton = screen.getByRole("button", {
+    name: "Change to blue",
+    hidden: true,
+    exact: true,
+  });
+  expect(colorbutton).toBeEnabled();
+
+  const checkbox = screen.getByRole("checkbox");
+
+  //checkbox should be unchecked intially
+
+  expect(checkbox).not.toBeChecked();
+});
+
+test("checkbox disables button on first click and enables on second click", () => {
+  //check for button  to Be Enabled
+  render(<App />);
+  const checkbox = screen.getByRole("checkbox");
+  const colorbutton = screen.getByRole("button", {
+    name: "Change to blue",
+  });
+  fireEvent.click(checkbox);
+  expect(colorbutton).toBeDisabled();
+
+  fireEvent.click(checkbox);
+  expect(colorbutton).toBeEnabled();
+  //checkbox should be unchecked intially
+});
